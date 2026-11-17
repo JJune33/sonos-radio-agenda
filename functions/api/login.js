@@ -1,0 +1,2 @@
+import {configured,checkOrigin,readJson,checkPassword,issueCookie,json,error} from '../_lib/core.js';
+export async function onRequestPost({request,env}){const origin=checkOrigin(request);if(origin)return origin;if(!configured(env))return error('Cloudflare-instellingen ontbreken.',503);const body=await readJson(request);if(typeof body?.password!=='string'||body.password.length>256||!await checkPassword(body.password,env.APP_PASSWORD))return error('Onjuist wachtwoord.',401);return json({ok:true},200,{'Set-Cookie':await issueCookie(env)})}

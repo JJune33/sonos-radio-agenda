@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1118" />
+  <meta name="description" content="Jouw persoonlijke radiogids. Plan programma's en start met een tik je Sonos-favorieten." />
+  <title>Radio Agenda | Sonos</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="background-halo" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><div><span class="brand-name">radio<span class="brand-em">agenda</span></span><span class="brand-sub">SONOS FAVORITES • YOUR SCHEDULE</span></div></div>
+      <div class="top-actions"><span class="connection" id="connection"><span class="connection-light"></span><span id="connectionText">Verbinding controleren</span></span><button id="logoutBtn" class="icon-button hidden" title="Uitloggen" aria-label="Uitloggen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div>
+    </header>
+
+    <main id="appScreen" class="hidden">
+      <section class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> JOUW PERSOONLIJKE RADIOGIDS</div><h1>Mis nooit meer<br /><em>jouw programma.</em></h1><p>Wat wil je vandaag luisteren? Kies een programma en schakel direct naar de juiste Sonos-favoriet.</p></div>
+        <div class="date-card"><div class="live-header"><span class="live-dot"></span> VANDAAG</div><div id="dateDay" class="date-day">17</div><div id="dateMonth" class="date-month">NOVEMBER 2026</div><div id="dateWeekday" class="date-weekday">Dinsdag</div><div id="clock" class="hero-clock">19:04</div></div>
+      </section>
+
+      <section class="sonos-control panel">
+        <div class="sonos-intro"><span class="speaker-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="2.5" width="14" height="19" rx="3"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="6.5" r="1"/></svg></span><div><strong>SONOS CONNECTIE</strong><small id="sonosMessage">Koppel je Sonos-account om favorieten op te halen.</small></div></div>
+        <div class="control-right"><label class="select-wrap hidden" id="householdWrap"><span>Huishouden</span><select id="householdSelect" aria-label="Sonos huishouden"></select></label><label class="select-wrap hidden" id="roomWrap"><span>Afspelen op</span><select id="roomSelect" aria-label="Sonos kamer"></select></label><button id="connectBtn" class="button button-amber">Sonos koppelen <span>↗</span></button><button id="refreshBtn" class="button button-secondary hidden" title="Sonos favorieten en kamers vernieuwen">↻ Vernieuwen</button></div>
+      </section>
+
+      <section class="schedule-section">
+        <div class="section-heading"><div><span class="eyebrow muted">JOUW WEEK</span><h2>Radio agenda</h2></div><button id="addBtn" class="button button-amber">+ Programma toevoegen</button></div>
+        <nav id="dayTabs" class="day-tabs" aria-label="Kies een dag"></nav>
+        <div class="agenda-summary"><div><span class="eyebrow muted" id="selectedDayLabel">VANDAAG</span><h3 id="selectedTitle">Programma's van vandaag</h3></div><div id="itemCount" class="count-chip">0 programma's</div></div>
+        <div id="programList" class="program-list" aria-live="polite"></div>
+      </section>
+      <footer><span>Gebouwd voor je eigen radiomomenten</span><span>Sonos Cloud API • Handmatig afspelen</span></footer>
+    </main>
+
+    <section id="loginScreen" class="login-screen hidden"><div class="login-card panel"><div class="lock-emblem">♫</div><div class="eyebrow">WELKOM TERUG</div><h2>Jouw muziek.<br />Jouw agenda.</h2><p>Log in op je privé radioagenda. Je Sonos-gegevens blijven veilig op de server.</p><form id="loginForm"><label for="password">Wachtwoord voor deze agenda</label><input id="password" type="password" autocomplete="current-password" placeholder="Voer je wachtwoord in" required /><button class="button button-amber login-submit" type="submit">Agenda openen <span>→</span></button></form><div id="loginError" class="form-error" role="alert"></div></div></section>
+
+    <section id="setupScreen" class="login-screen hidden"><div class="login-card panel"><div class="lock-emblem">⚙</div><h2>Cloudflare instellen</h2><p id="setupText">De vereiste Cloudflare-instellingen ontbreken nog. Volg de README om je Sonos-gegevens veilig als Secrets toe te voegen.</p></div></section>
+  </div>
+
+  <div id="modal" class="modal-overlay hidden" role="presentation"><div class="modal panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-heading"><div><div class="eyebrow muted">RADIOPROGRAMMA</div><h2 id="modalTitle">Programma toevoegen</h2></div><button id="closeModal" class="close-button" aria-label="Sluiten">×</button></div><form id="programForm"><input id="editId" type="hidden"/><div class="form-group"><label for="programName">Naam van het radioprogramma</label><input id="programName" maxlength="90" type="text" required placeholder="Bijv. Ekdom in de Morgen" /></div><div class="form-group"><label for="favoriteSelect">Sonos-favoriet / radiostation</label><select id="favoriteSelect" required><option value="">Kies een favoriet</option></select><small>Deze lijst komt rechtstreeks uit je Sonos-account.</small></div><div class="form-grid"><div class="form-group"><label for="daySelect">Herhaling</label><select id="daySelect"><option value="1">Maandag</option><option value="2">Dinsdag</option><option value="3">Woensdag</option><option value="4">Donderdag</option><option value="5">Vrijdag</option><option value="6">Zaterdag</option><option value="0">Zondag</option><option value="all">Iedere dag</option></select></div><div class="form-group"><label for="startTime">Begint om</label><input type="time" id="startTime" value="08:00" required /></div></div><div class="form-group"><label for="endTime">Eindtijd (optioneel)</label><input type="time" id="endTime"/><small>De eindtijd is alleen voor de agenda. Sonos wordt niet automatisch gestopt.</small></div><div id="formError" class="form-error" role="alert"></div><div class="modal-actions"><button type="button" class="button button-secondary" id="cancelModal">Annuleren</button><button type="submit" class="button button-amber" id="saveBtn">Programma opslaan</button></div></form></div></div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>

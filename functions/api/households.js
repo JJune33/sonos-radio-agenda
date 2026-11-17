@@ -1,0 +1,2 @@
+import {required,sonosConfigError,sonosRequest,householdsArray,json,apiError} from '../_lib/core.js';
+export async function onRequestGet(context){const auth=await required(context);if(auth)return auth;const cfg=sonosConfigError(context.env);if(cfg)return cfg;try{const data=await sonosRequest(context.env,'GET','/households');return json({households:householdsArray(data)})}catch(e){return apiError(e)}}

@@ -1,0 +1,2 @@
+import {configured,getSession,json,storedToken} from '../_lib/core.js';
+export async function onRequestGet({request,env}){const config=configured(env);if(!config)return json({configured:false,authenticated:false,sonosConnected:false});const authenticated=Boolean(await getSession(request,env));return json({configured:true,authenticated,sonosConnected:authenticated&&Boolean(await storedToken(env))})}

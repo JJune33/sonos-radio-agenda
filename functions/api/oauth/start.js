@@ -1,0 +1,2 @@
+import {required,sonosConfigError,oauthUrl,getSession,makeOAuthState} from '../../_lib/core.js';
+export async function onRequestGet(context){const auth=await required(context);if(auth)return auth;const cfg=sonosConfigError(context.env);if(cfg)return cfg;const session=await getSession(context.request,context.env);const state=await makeOAuthState(context.env,session);return Response.redirect(oauthUrl(context.env,state),302)}
