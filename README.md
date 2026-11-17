@@ -77,3 +77,7 @@ De agenda is centraal opgeslagen in Cloudflare KV en daarom zichtbaar op je iPad
 - Sonos afspelen: https://docs.sonos.com/reference/favorites-loadfavorite-groupid
 - Cloudflare Pages Functions: https://developers.cloudflare.com/pages/functions/get-started/
 - Cloudflare KV bindings: https://developers.cloudflare.com/pages/functions/bindings/
+
+## KV-binding controleren
+
+Na het instellen of opnieuw koppelen van `RADIO_KV` moet een nieuwe Production-deployment starten. Open `https://sonos-radio-agenda.pages.dev/api/status` om de status te controleren. Als `configured` nog `false` is, vermeldt `missing` uitsluitend de namen van niet beschikbare instellingen en nooit hun geheime waarden.
