@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - sonos-source.b85
+      - sonos-ready.txt
 permissions:
   contents: write
 jobs:
@@ -11,29 +11,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-      - name: Extract application source
+      - name: Expand application package
         shell: bash
         run: |
           python3 - <<'PY'
           import base64, io, lzma, tarfile
           from pathlib import Path
-          data = base64.b85decode(''.join(Path('sonos-source.b85').read_text().split()))
-          payload = lzma.decompress(data)
-          with tarfile.open(fileobj=io.BytesIO(payload), mode='r:') as archive:
+          parts = sorted(Path('.').glob('sonos_part_*.txt'))
+          if len(parts) != 12:
+              raise RuntimeError('Expected exactly 12 archive parts')
+          data = base64.b85decode(''.join(p.read_text() for p in parts))
+          with tarfile.open(fileobj=io.BytesIO(lzma.decompress(data)), mode='r:') as archive:
               members = archive.getmembers()
               for member in members:
-                  p = Path(member.name)
-                  if not member.isfile() or p.is_absolute() or '..' in p.parts:
-                      raise ValueError('Unsafe archive entry: ' + member.name)
+                  path = Path(member.name)
+                  if not member.isfile() or path.is_absolute() or '..' in path.parts:
+                      raise ValueError('Invalid entry: ' + member.name)
               for member in members:
                   dest = Path(member.name)
                   dest.parent.mkdir(parents=True, exist_ok=True)
                   dest.write_bytes(archive.extractfile(member).read())
-          Path('sonos-source.b85').unlink()
+          for p in parts:
+              p.unlink()
+          Path('sonos-ready.txt').unlink()
           PY
-      - name: Commit installed files
+      - name: Commit application files
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
