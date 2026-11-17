@@ -1,0 +1,44 @@
+name: Install Sonos Radio Agenda source
+on:
+  push:
+    branches: [main]
+    paths:
+      - sonos-source.b85
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract application source
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, io, lzma, tarfile
+          from pathlib import Path
+          data = base64.b85decode(''.join(Path('sonos-source.b85').read_text().split()))
+          payload = lzma.decompress(data)
+          with tarfile.open(fileobj=io.BytesIO(payload), mode='r:') as archive:
+              members = archive.getmembers()
+              for member in members:
+                  p = Path(member.name)
+                  if not member.isfile() or p.is_absolute() or '..' in p.parts:
+                      raise ValueError('Unsafe archive entry: ' + member.name)
+              for member in members:
+                  dest = Path(member.name)
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_bytes(archive.extractfile(member).read())
+          Path('sonos-source.b85').unlink()
+          PY
+      - name: Commit installed files
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m 'Install Sonos Radio Agenda application'
+          git push
