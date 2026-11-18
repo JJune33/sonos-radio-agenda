@@ -2,7 +2,7 @@ import {required,checkOrigin,readJson,json,error} from '../_lib/core.js';
 
 const KEY='radio.local.v1';
 const EMPTY={revision:'initial',mappings:{},localItems:[]};
-const validURL=url=>typeof url==='string'&&url.length<=1500&&/^https:\/\/[^\s<>]+$/i.test(url)&&(()=>{try{const u=new URL(url);return u.protocol==='https:'&&!!u.hostname&&!!u.port!==false||u.protocol==='https:'&&!!u.hostname}catch{return false}})();
+const validURL=url=>typeof url==='string'&&url.length<=1500&&/^https:\/\/[^\s<>]+$/i.test(url)&&(()=>{try{const u=new URL(url);return u.protocol==='https:'&&!!u.hostname&&!u.username&&!u.password}catch{return false}})();
 const str=(value,max)=>typeof value==='string'&&value.trim().length>0&&value.length<=max;
 const validTime=t=>typeof t==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(t);
 const validDay=d=>d==='all'||['0','1','2','3','4','5','6'].includes(d);
