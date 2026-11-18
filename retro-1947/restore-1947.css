@@ -349,3 +349,36 @@ body.ra-retro .track-info-button:focus-visible{
   body.ra-retro .track-info-button{font-size:12px;padding:10px 12px}
   body.ra-retro .track-popup-card{padding:20px 18px}
 }
+
+
+/* Songtekst wordt uitsluitend op verzoek in de bestaande radio-popup getoond. */
+body.ra-retro .track-popup .track-lyrics-button{
+  display:block;width:100%;min-height:42px;padding:10px 17px;
+  border:1px solid #13595c;border-radius:100px;
+  background:#13595c;color:#f0e4c5;
+  font:inherit;font-size:14px;font-weight:850;cursor:pointer;
+  margin:0 0 13px;
+}
+body.ra-retro .track-popup .track-lyrics-button:hover:not(:disabled){background:#0b4e53}
+body.ra-retro .track-popup .track-lyrics-button:disabled{opacity:.55;cursor:default}
+body.ra-retro .track-lyrics-section{
+  border-top:1px solid rgba(19,89,92,.34);
+  margin:11px 0 20px;padding-top:14px;min-width:0;
+}
+body.ra-retro .track-lyrics-kicker{
+  font-size:11px;font-weight:900;letter-spacing:.2em;color:#13595c;margin-bottom:8px;
+}
+body.ra-retro #lyricsStatus{
+  color:#365b59;font-size:13px;line-height:1.5;margin:0 0 10px;
+}
+body.ra-retro .track-lyrics-text{
+  max-height:min(43dvh,360px);overflow-y:auto;overscroll-behavior:contain;
+  padding:14px 15px;border:1px solid rgba(19,89,92,.35);border-radius:10px;
+  background:rgba(246,232,197,.65);color:#244044;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  font:normal 14px/1.65 Georgia,serif;
+  scrollbar-width:thin;
+}
+body.ra-retro .track-lyrics-source{
+  display:block;color:#49645e;font-size:11px;margin-top:9px;
+}
