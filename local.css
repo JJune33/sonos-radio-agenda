@@ -151,3 +151,26 @@ body.local-radio .local-banner{
   body.local-radio .ra-agenda .local-program-actions{gap:5px}
   body.local-radio .ra-agenda .local-program-actions .local-configure{font-size:10px}
 }
+
+
+/* Tijdelijke lettertypetest voor local.html, gebaseerd op het aangeleverde 50font.ttf.
+   Deze overrides staan alleen in local.css. De Sonos-versie blijft ongewijzigd. */
+@font-face{
+  font-family:'Sunn Local 50s';
+  src:url('./retro-1947/assets/sunn-local-display.woff2') format('woff2');
+  font-style:normal;
+  font-weight:400 900;
+  font-display:swap;
+}
+body.local-radio{--ra-display:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif}
+body.local-radio .brand-name,
+body.local-radio .ra-hero-title,
+body.local-radio .ra-agenda .ra-section-title,
+body.local-radio .date-card .date-day,
+body.local-radio .date-card .hero-clock,
+body.local-radio .ra-agenda .time-block,
+body.local-radio .login-card h2,
+body.local-radio .modal-heading h2{
+  font-family:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif;
+}
+/* 'agenda' in het logo behoudt zijn aparte cursieve seriffont. */
