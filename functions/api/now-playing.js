@@ -19,25 +19,12 @@ export async function onRequestGet(context){
     const rawPlayback=results[1].status==='fulfilled'?results[1].value:{};
     const metadata=rawMetadata.metadataStatus||rawMetadata;
     const playback=rawPlayback.playbackStatus||rawPlayback;
-    const track=metadata.currentItem?.track||{};
-    const name=metadata.container?.name||track.name||'';
-    const normalized=value=>typeof value==='string'?value.trim():'';
-    const songTitle=normalized(track.name);
-    const artistName=normalized(track.artist?.name);
-    const streamInfo=normalized(metadata.streamInfo);
-    const stationName=normalized(name);
-    const isTrackName=Boolean(songTitle&&(songTitle!==stationName||artistName));
-    const service=track.service||metadata.container?.service||{};
+    const name=metadata.container?.name||metadata.currentItem?.track?.name||'';
     return json({
       source:typeof name==='string'?name.slice(0,200):'',
       sourceType:typeof metadata.container?.type==='string'?metadata.container.type.slice(0,100):'',
       playbackState:typeof playback.playbackState==='string'?playback.playbackState:'',
-      metadataAvailable:results[0].status==='fulfilled',
-      trackTitle:isTrackName?songTitle:'',
-      trackArtist:artistName,
-      streamInfo:(!isTrackName&&streamInfo!==stationName)?streamInfo:'',
-      serviceName:normalized(service.name),
-      serviceIconUrl:normalized(service.imageUrl)
+      metadataAvailable:results[0].status==='fulfilled'
     });
   }catch(e){return apiError(e)}
 }
