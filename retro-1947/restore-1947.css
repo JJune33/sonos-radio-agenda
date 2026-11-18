@@ -199,3 +199,57 @@ body.ra-retro .ra-day-picker{
  body.ra-retro .ra-brand .brand-name{overflow-wrap:anywhere}
  body.ra-retro .ra-hero::after{inset:0;pointer-events:none}
 }
+
+
+/* Typography and mobile controls: keep the original 1947 look and all JS actions. */
+body.ra-retro .brand-name{
+  letter-spacing:.018em;
+}
+body.ra-retro .brand-em{
+  letter-spacing:.012em;
+}
+body.ra-retro .ra-hero-title{
+  font-size:clamp(44px,4.8vw,72px);
+  letter-spacing:.018em;
+  line-height:1.1;
+}
+body.ra-retro .ra-hero-title em{
+  letter-spacing:inherit;
+}
+body.ra-retro .date-card .date-day{
+  letter-spacing:.02em;
+}
+@media(max-width:1050px){
+  body.ra-retro .ra-hero-title{font-size:clamp(39px,5.4vw,60px)}
+}
+@media(max-width:800px){
+  body.ra-retro .ra-hero-title{font-size:clamp(35px,5.4vw,48px)}
+}
+@media(max-width:600px){
+  body.ra-retro .ra-hero-title{font-size:clamp(35px,9vw,49px)}
+  body.ra-retro .brand-name{letter-spacing:.01em}
+  body.ra-retro .ra-agenda .program-row{min-width:0}
+  body.ra-retro .ra-agenda .program-actions{
+    grid-column:1 / -1;
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    min-width:0;
+    gap:8px;
+  }
+  body.ra-retro .ra-agenda .program-actions .play-button{
+    flex:1 1 auto;
+    min-width:0;
+    text-align:center;
+    justify-content:center;
+    padding:10px 8px;
+    white-space:nowrap;
+  }
+  body.ra-retro .ra-agenda .program-actions .subtle-action{
+    flex:0 0 36px;
+    width:36px;
+    height:36px;
+  }
+}
