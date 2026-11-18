@@ -226,6 +226,7 @@ function resetModal(){
   $('editLocalId').value='';$('mappingFavoriteId').value='';
   $('formError').textContent='';$('searchMessage').textContent='';
   $('searchResults').replaceChildren();
+  $('searchStations').disabled=false;
   state.searchId++;
 }
 function showModal(){
