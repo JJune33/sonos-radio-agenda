@@ -1,0 +1,179 @@
+/* 1947 print restoration. Visual CSS only; all application logic stays intact. */
+body.ra-retro{
+ --ra-teal:#2c8583;--ra-teal-deep:#13595c;--ra-ink:#244044;
+ --ra-cream:#e6d8b2;--ra-cream-light:#f0e4c5;--ra-gold:#b6a178;
+ --ra-focus:#fff4c6;
+ color:#f0e4c5;background-color:#2c8583;
+ background-image:url('./assets/teal-patina.png'),radial-gradient(ellipse at 49% 24%,#429c9b 0%,#328987 47%,#226c6e 100%);
+ background-position:0 0,center;background-size:256px 256px,cover;
+ background-repeat:repeat,no-repeat;min-height:100vh;
+}
+body.ra-retro .background-halo{display:none}
+body.ra-retro .ra-shell{max-width:1320px;padding:0 32px 34px}
+body.ra-retro .ra-topbar{height:auto;min-height:94px;border-bottom:2px solid #e9d8aa;padding:15px 0 14px;gap:16px}
+body.ra-retro .ra-brand{gap:18px;color:#f6e9c2}
+body.ra-retro .brand-mark{width:37px;flex:none;opacity:.98}
+body.ra-retro .brand-mark i{background:#f3e2b8}
+body.ra-retro .brand-name{font-size:clamp(32px,3.3vw,52px);font-family:Impact,'Arial Narrow',sans-serif;font-weight:900;color:#f6e6bb;letter-spacing:-.03em}
+body.ra-retro .brand-em{font-family:Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.08em;color:#f6e6bb}
+body.ra-retro .brand-sub{display:block;font-size:clamp(9px,1vw,14px);font-weight:800;letter-spacing:.23em;color:#f7e8c1;opacity:1}
+body.ra-retro .ra-top-right{background:rgba(19,89,92,.34);border:1px solid #e6d8b2;border-radius:100px;padding:7px 11px;min-width:0}
+body.ra-retro .ra-top-right .connection{background:transparent;border:0;color:#f6e7c1;font-size:13px;padding:2px 6px;backdrop-filter:none}
+body.ra-retro .connection-light{background:#c8be81;width:11px;height:11px}
+body.ra-retro .connection.online .connection-light{background:#68bc6b;box-shadow:0 0 8px #68bc6b}
+body.ra-retro .icon-button{border:1px solid #e6d8b2;color:#f3e3b9;background:#13595c;border-radius:100px;width:40px;height:40px}
+
+/* Tower and radio waves: rendered in front of the background, not behind opaque layers. */
+body.ra-retro .ra-hero{position:relative;isolation:isolate;overflow:visible;display:grid;grid-template-columns:minmax(0,1fr) minmax(275px,370px);gap:32px;min-height:310px;padding:28px 0 14px;background:transparent}
+body.ra-retro .ra-hero::before{content:"";display:block;position:absolute;left:-168px;top:12px;width:218px;height:970px;background:url('./assets/radio-tower.svg') center top/contain no-repeat;opacity:.97;z-index:2;pointer-events:none}
+body.ra-retro .ra-hero::after{content:"";display:block;position:absolute;inset:0 -35px -22px;background:url('./assets/radio-waves.svg') center 44%/cover no-repeat;opacity:.75;z-index:0;pointer-events:none}
+body.ra-retro .ra-hero-main{min-width:0;position:relative;z-index:3;padding:23px 8px 30px 85px}
+body.ra-retro .ra-hero-main::after{content:"";display:block;position:absolute;left:auto;right:-120px;top:3px;width:min(42vw,315px);height:auto;aspect-ratio:590/420;background:url('./assets/atomic-orbits.svg') center/contain no-repeat;opacity:.7;z-index:-1;pointer-events:none;transform:none}
+body.ra-retro .ra-hero-main .ra-eyebrow{font-size:clamp(12px,1.5vw,16px);font-style:italic;font-weight:900;letter-spacing:.24em;max-width:max-content;color:#f2e3bc;border-bottom:2px solid #f2e3bc;padding:0 0 6px}
+body.ra-retro .eyebrow-line{background:#f2e3bc}
+body.ra-retro .ra-hero-title{color:#f4e4be;font-family:Impact,'Arial Narrow',sans-serif;font-style:italic;font-weight:900;text-shadow:2px 3px 1px rgba(9,75,75,.14);font-size:clamp(48px,5.3vw,81px);letter-spacing:-.015em;line-height:1.07;max-width:680px;margin:15px 0 14px}
+body.ra-retro .ra-hero-title em{color:#f4e4be;font-style:italic;font-weight:900}
+body.ra-retro .ra-hero-description{color:#f9eac4;font-size:clamp(15px,1.6vw,20px);font-style:italic;line-height:1.38;max-width:580px;font-weight:500;opacity:1}
+
+/* Visibly aged paper with warm edges, ink color, and authentic printed contrast. */
+body.ra-retro .ra-paper{
+ color:#244044;background-color:#e6d8b2;
+ background-image:radial-gradient(ellipse at 0% 0%,rgba(137,82,35,.22),transparent 32%),radial-gradient(ellipse at 105% 110%,rgba(139,84,39,.20),transparent 35%),url('./assets/paper-grain.png'),repeating-linear-gradient(93deg,transparent 0 91px,rgba(107,77,38,.016) 91px 92px),linear-gradient(120deg,#e8d5a9,#f0e0b9 49%,#e4cfa4);
+ background-size:cover,cover,256px 256px,auto,cover;
+ border:2px solid #b6a178;box-shadow:inset 0 0 24px rgba(132,82,32,.18),0 8px 0 rgba(21,89,88,.18),0 16px 32px rgba(12,71,69,.22)
+}
+body.ra-retro .ra-paper::selection{background:#13595c;color:#f0e4c5}
+body.ra-retro .date-card{z-index:3;min-height:258px;padding:20px 24px;border-radius:24px;align-self:start;position:relative;overflow:hidden}
+body.ra-retro .date-card::after{display:block;content:"";position:absolute;right:12px;top:48px;width:138px;height:138px;background:url('./assets/atomic-orbits.svg') center/contain no-repeat;opacity:.08;border:0;border-radius:0;pointer-events:none}
+body.ra-retro .date-card :is(.live-header,.date-month,.date-weekday,.hero-clock){color:#244044;opacity:1}
+body.ra-retro .date-card .live-header{letter-spacing:.28em;font-size:15px;border-bottom:1px solid #13595c;padding-bottom:8px}
+body.ra-retro .date-card .date-day{color:#13595c;font-size:clamp(80px,7vw,110px);margin-top:16px;letter-spacing:-.08em}
+body.ra-retro .date-card .date-month{font-size:14px;letter-spacing:.14em}
+body.ra-retro .date-card .date-weekday{display:inline-block;background:#13595c;color:#f3e4be;max-width:max-content;padding:4px 17px 5px;border-radius:0;clip-path:polygon(0 0,100% 0,94% 50%,100% 100%,0 100%,6% 50%);font-size:13px;letter-spacing:.15em;font-weight:800;text-transform:uppercase;margin-top:10px}
+body.ra-retro .date-card .hero-clock{color:#13595c;font-weight:800;font-size:20px;right:22px;bottom:16px}
+
+body.ra-retro .ra-paper.sonos-control{margin:4px 0 13px 85px;padding:16px 20px;border-radius:24px;position:relative;z-index:4;min-height:83px;gap:16px}
+body.ra-retro .sonos-intro{color:#244044;gap:12px}
+body.ra-retro .sonos-intro strong{color:#13595c;font-size:14px;letter-spacing:.19em}
+body.ra-retro .sonos-intro small{color:#31565a;font-size:13px;opacity:1}
+body.ra-retro .speaker-icon{background:#13595c;color:#f0e4c5;border-radius:12px}
+body.ra-retro .select-wrap{color:#244044}
+body.ra-retro .select-wrap span{color:#13595c;font-weight:800}
+body.ra-retro .select-wrap select{background:#efe0bb;color:#244044;border:1px solid #13595c;border-radius:7px}
+body.ra-retro .button,body.ra-retro .button-secondary{background:#13595c;color:#f0e4c5;border:1px solid #c9b88c;border-radius:100px;font-weight:800;box-shadow:0 3px 0 rgba(22,80,81,.18)}
+body.ra-retro .button:hover{background:#0d4c50}
+body.ra-retro .ra-paper.now-playing{position:relative;z-index:4;margin:0 0 14px 85px;padding:13px 22px;min-height:64px;border-radius:16px;background-color:#e6d8b2}
+body.ra-retro .now-playing :is(.now-playing-label,.now-playing-copy strong,.now-playing-state,#nowPlayingRoom,#nowPlayingTitle){color:#244044;opacity:1}
+body.ra-retro .now-playing .now-playing-label{font-size:12px;letter-spacing:.16em;font-weight:900}
+body.ra-retro .now-playing .now-playing-copy strong{font-size:17px}
+body.ra-retro .now-playing .now-playing-state{font-size:13px;color:#13595c;font-weight:900}
+body.ra-retro .now-playing-dot{background:#238857}
+
+/* The existing JS day filter and program buttons remain untouched. */
+body.ra-retro .ra-agenda{position:relative;z-index:3;margin:6px 0 26px 85px;padding:26px 32px 32px;border-radius:30px}
+body.ra-retro .ra-agenda-header{margin:0 0 16px;border-bottom:2px solid #13595c;padding-bottom:19px;align-items:center}
+body.ra-retro .ra-agenda .ra-section-kicker{color:#13595c;opacity:1;font-size:15px;letter-spacing:.27em;border-bottom:1px solid #13595c;max-width:max-content}
+body.ra-retro .ra-agenda .ra-section-title{color:#13595c;font-family:Impact,'Arial Narrow',sans-serif;font-style:italic;font-size:clamp(42px,4.7vw,69px);letter-spacing:-.01em;line-height:1.02;margin:9px 0 0}
+body.ra-retro .ra-agenda .ra-action{background:#13595c;color:#f0e4c5;border:2px solid #e8d9b6;font-size:15px;padding:13px 23px;min-height:50px}
+body.ra-retro .ra-agenda .ra-day-picker{display:flex;flex-wrap:nowrap;gap:7px;padding:0 0 10px;margin:0 0 11px;background:transparent;border:0;border-radius:0;overflow-x:auto;box-shadow:none;scrollbar-width:thin}
+body.ra-retro .ra-day-picker .day-tab{flex:1 0 80px;min-width:74px;min-height:64px;background:#efdfb9;color:#1b5658;border:1.5px solid #397b79;border-radius:11px;padding:10px 8px 14px;font-size:14px;font-weight:900;box-shadow:none}
+body.ra-retro .ra-day-picker .day-tab.active{background:#13595c;color:#f0e4c5;border-color:#13595c;box-shadow:0 3px 0 rgba(36,64,68,.2)}
+body.ra-retro .ra-day-picker .day-tab:hover:not(.active){background:#f8eac7;color:#13595c}
+body.ra-retro .ra-day-picker .day-count{color:inherit;opacity:.8;bottom:2px}
+body.ra-retro .ra-agenda .ra-list-header{border-top:1px solid rgba(19,89,92,.2);border-bottom:2px solid #13595c;margin:6px 0 13px;padding:8px 0 12px;display:flex;align-items:center;gap:14px}
+body.ra-retro .ra-agenda .ra-day-tag{color:#f0e4c5;background:#13595c;opacity:1;font-size:13px;padding:8px 22px;letter-spacing:.2em}
+body.ra-retro .ra-agenda .ra-list-heading{color:#244044;opacity:1;font-size:19px;font-style:italic;margin:8px 0 0}
+body.ra-retro .ra-agenda .count-chip{color:#244044;background:rgba(19,89,92,.11);font-size:12px;opacity:1;border:1px solid rgba(19,89,92,.2)}
+body.ra-retro .ra-agenda .program-row{grid-template-columns:100px minmax(0,1fr) auto;gap:16px;background:rgba(240,224,181,.67);border:1.5px solid #2b7270;border-radius:14px;padding:12px 17px;min-height:84px;color:#244044;margin-bottom:9px}
+body.ra-retro .ra-agenda .program-row:hover{background:#f4e4bb;border-color:#13595c}
+body.ra-retro .ra-agenda .time-block{color:#13595c;font-size:22px;font-weight:900;padding-right:12px;border-right:2px solid #13595c}
+body.ra-retro .ra-agenda .time-block small{color:#3c5a58;font-size:12px;font-weight:700;opacity:1}
+body.ra-retro .ra-agenda .program-main h4{color:#193e3f;font-size:20px;font-weight:900}
+body.ra-retro .ra-agenda .program-sub{color:#3c5858;opacity:1;font-size:14px;font-style:italic}
+body.ra-retro .ra-agenda .program-sub .onair{color:#135c41;background:rgba(41,139,80,.14)}
+body.ra-retro .ra-agenda .play-button{background:#13595c;color:#f0e4c5;border:1px solid #13595c;border-radius:100px;font-size:13px;padding:10px 15px;white-space:nowrap}
+body.ra-retro .ra-agenda .subtle-action{background:#e4d3a9;border:1px solid #13595c;color:#13595c;border-radius:50%;width:39px;height:39px}
+body.ra-retro .ra-agenda .subtle-action:hover{background:#d9c49b}
+body.ra-retro .ra-agenda .empty-state{background:rgba(244,230,196,.5);border:1px dashed #13595c;color:#244044}
+body.ra-retro .ra-agenda .empty-state h4{color:#244044}
+body.ra-retro .ra-agenda .empty-state p{color:#355657}
+body.ra-retro .ra-agenda .week-heading{color:#13595c}
+
+/* Existing login and edit modal styled as period paper; no gray controls. */
+body.ra-retro .login-card,body.ra-retro .ra-dialog{background-color:#e6d8b2;color:#244044}
+body.ra-retro .login-card :is(h2,p,label),body.ra-retro .ra-dialog :is(h2,label,small){color:#244044}
+body.ra-retro .login-card .eyebrow,body.ra-retro .ra-dialog .eyebrow{color:#13595c;opacity:1}
+body.ra-retro .login-card input,body.ra-retro .ra-dialog input,body.ra-retro .ra-dialog select{background:#f0e4c5;color:#244044;border:1.5px solid #13595c}
+body.ra-retro .ra-dialog .modal-actions button{border-radius:100px}
+body.ra-retro .close-button{background:#13595c;color:#f0e4c5;border:1px solid #c6b88f;border-radius:50%}
+body.ra-retro .form-error{color:#912e26}
+body.ra-retro footer{color:#f0e4c5}
+
+@media(max-width:1050px){
+ body.ra-retro .ra-hero{grid-template-columns:minmax(0,1fr) 290px;gap:16px}
+ body.ra-retro .ra-hero-main{padding-left:80px}
+ body.ra-retro .ra-hero-title{font-size:clamp(41px,5.8vw,66px)}
+ body.ra-retro .ra-hero::before{left:-105px;width:168px;height:750px;top:30px}
+ body.ra-retro .ra-agenda,body.ra-retro .ra-paper.sonos-control,body.ra-retro .ra-paper.now-playing{margin-left:35px}
+ body.ra-retro .ra-hero-main::after{right:-68px;width:220px}
+}
+@media(max-width:800px){
+ body.ra-retro .ra-topbar{min-height:78px}
+ body.ra-retro .ra-hero{grid-template-columns:minmax(0,1fr) 215px;gap:12px;min-height:265px}
+ body.ra-retro .ra-hero-main{padding:19px 0 16px 58px}
+ body.ra-retro .ra-hero::before{left:-66px;width:117px;height:630px}
+ body.ra-retro .ra-hero-main::after{right:-30px;width:180px;top:25px;opacity:.35}
+ body.ra-retro .ra-hero-title{font-size:clamp(37px,5.8vw,51px)}
+ body.ra-retro .ra-hero-description{font-size:15px}
+ body.ra-retro .date-card{min-height:224px;padding:17px}
+ body.ra-retro .date-card .date-day{font-size:80px}
+ body.ra-retro .ra-agenda,body.ra-retro .ra-paper.sonos-control,body.ra-retro .ra-paper.now-playing{margin-left:0}
+ body.ra-retro .ra-agenda{padding:19px 17px 22px}
+ body.ra-retro .ra-day-picker .day-tab{flex:0 0 77px}
+}
+@media(max-width:600px){
+ body.ra-retro .ra-shell{padding:0 12px 20px}
+ body.ra-retro .ra-topbar{gap:8px;padding:12px 0}
+ body.ra-retro .ra-brand{gap:7px}
+ body.ra-retro .brand-mark{width:24px;height:36px}
+ body.ra-retro .brand-mark i{width:4px}
+ body.ra-retro .brand-name{font-size:30px}
+ body.ra-retro .brand-sub{display:none}
+ body.ra-retro .ra-top-right{padding:5px 8px}
+ body.ra-retro .ra-top-right .connection{font-size:11px}
+ body.ra-retro .icon-button{width:32px;height:32px}
+ body.ra-retro .ra-hero{display:grid;grid-template-columns:1fr;min-height:0;gap:12px;padding:11px 0}
+ body.ra-retro .ra-hero::before{left:-35px;top:65px;width:92px;height:470px;opacity:.63}
+ body.ra-retro .ra-hero::after{inset:0 -12px 0;opacity:.38;background-size:cover}
+ body.ra-retro .ra-hero-main{padding:14px 0 8px 45px;min-height:220px}
+ body.ra-retro .ra-hero-main::after{left:auto;right:0;top:32px;width:150px;height:auto;opacity:.32}
+ body.ra-retro .ra-hero-main .ra-eyebrow{font-size:10px;letter-spacing:.14em}
+ body.ra-retro .ra-hero-title{font-size:clamp(39px,10vw,56px);margin:14px 0 10px;line-height:1.05}
+ body.ra-retro .ra-hero-description{font-size:14px;line-height:1.4;max-width:90%}
+ body.ra-retro .date-card{min-height:170px;margin:0;padding:15px 17px;border-radius:17px}
+ body.ra-retro .date-card .date-day{font-size:63px;margin-top:9px}
+ body.ra-retro .date-card .live-header{font-size:12px}
+ body.ra-retro .date-card .date-month{font-size:12px}
+ body.ra-retro .date-card .date-weekday{font-size:11px}
+ body.ra-retro .date-card .hero-clock{font-size:17px}
+ body.ra-retro .ra-paper.sonos-control{padding:14px;border-radius:16px;gap:12px}
+ body.ra-retro .sonos-intro strong{font-size:12px}
+ body.ra-retro .sonos-intro small{font-size:12px}
+ body.ra-retro .ra-agenda{padding:15px 12px 20px;border-radius:17px}
+ body.ra-retro .ra-agenda-header{gap:10px}
+ body.ra-retro .ra-agenda .ra-section-title{font-size:43px}
+ body.ra-retro .ra-agenda .ra-action{width:100%}
+ body.ra-retro .ra-agenda .ra-list-heading{font-size:16px}
+ body.ra-retro .ra-agenda .ra-list-header{gap:9px}
+ body.ra-retro .ra-agenda .ra-day-tag{font-size:11px;padding:7px 14px}
+ body.ra-retro .ra-agenda .program-row{grid-template-columns:68px minmax(0,1fr);gap:8px 11px;padding:11px}
+ body.ra-retro .ra-agenda .time-block{font-size:17px;padding-right:8px}
+ body.ra-retro .ra-agenda .time-block small{font-size:10px}
+ body.ra-retro .ra-agenda .program-main h4{font-size:16px}
+ body.ra-retro .ra-agenda .program-sub{font-size:12px}
+ body.ra-retro .ra-agenda .program-actions{grid-column:2;justify-content:flex-start;flex-wrap:wrap}
+ body.ra-retro .ra-agenda .play-button{font-size:12px}
+ body.ra-retro .ra-agenda .subtle-action{width:34px;height:34px}
+ body.ra-retro .ra-paper.now-playing{padding:12px 14px}
+ body.ra-retro .now-playing .now-playing-label{font-size:10px}
+}
