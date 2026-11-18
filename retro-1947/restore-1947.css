@@ -382,3 +382,18 @@ body.ra-retro .track-lyrics-text{
 body.ra-retro .track-lyrics-source{
   display:block;color:#49645e;font-size:11px;margin-top:9px;
 }
+
+
+/* Kleine optionele navigatie naar de zelfstandige lokale radio. */
+body.ra-retro .local-switch-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:36px;padding:7px 13px;border:1px solid #e6d8b2;
+  border-radius:30px;background:#13595c;color:#f4e7c2;
+  text-decoration:none;font-size:12px;font-weight:850;
+  white-space:nowrap;letter-spacing:.025em;
+}
+body.ra-retro .local-switch-link:hover{background:#0c4548}
+body.ra-retro .local-switch-link:focus-visible{outline:3px solid #b98c35;outline-offset:3px}
+@media(max-width:600px){
+  body.ra-retro .local-switch-link{font-size:11px;min-height:33px;padding:6px 9px}
+}
