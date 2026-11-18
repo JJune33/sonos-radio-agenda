@@ -12,7 +12,7 @@ function showLogin(){show('loginScreen');show('appScreen',false);show('setupScre
 function showSetup(message){show('setupScreen');show('loginScreen',false);show('appScreen',false);show('logoutBtn',false);$('setupText').textContent=message||'Stel eerst Cloudflare Secrets en de KV-binding in.'}
 function showApp(){show('appScreen');show('loginScreen',false);show('setupScreen',false);show('logoutBtn');updateDate()}
 function updateDate(){const d=new Date();$('dateDay').textContent=d.toLocaleDateString('nl-NL',{day:'numeric'});$('dateMonth').textContent=d.toLocaleDateString('nl-NL',{month:'long',year:'numeric'}).toUpperCase();$('dateWeekday').textContent=DAYS[d.getDay()];$('clock').textContent=d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});if(state.lastDay!==d.getDay()){state.lastDay=d.getDay();renderTabs();renderList()}}
-function setConnection(connected,message){state.connected=connected;if(!connected)show('nowPlaying',false);$('connection').classList.toggle('online',connected);$('connectionText').textContent=connected?'Sonos gekoppeld':'Sonos niet gekoppeld';$('sonosMessage').textContent=message|| (connected?'Favorieten zijn beschikbaar.':'Log in op Sonos om je favorieten te laden.');show('connectBtn',!connected);show('refreshBtn',connected);show('roomWrap',connected&&state.groups.length>0);show('householdWrap',connected&&state.households.length>1)}
+function setConnection(connected,message){state.connected=connected;$('trackInfoBtn').disabled=!(connected&&state.groupId);if(!connected)show('nowPlaying',false);$('connection').classList.toggle('online',connected);$('connectionText').textContent=connected?'Sonos gekoppeld':'Sonos niet gekoppeld';$('sonosMessage').textContent=message|| (connected?'Favorieten zijn beschikbaar.':'Log in op Sonos om je favorieten te laden.');show('connectBtn',!connected);show('refreshBtn',connected);show('roomWrap',connected&&state.groups.length>0);show('householdWrap',connected&&state.households.length>1)}
 async function loadSchedule(){const result=await api('schedule');state.items=Array.isArray(result.items)?result.items:[];state.revision=result.revision||null;renderTabs();renderList()}
 function listForDay(day){return state.items.filter(x=>x.day==='all'||x.day===String(day)).sort((a,b)=>(a.start||'').localeCompare(b.start||''))}
 function selectedIndex(){return state.view==='today'?new Date().getDay():Number(state.view)}
@@ -46,6 +46,61 @@ async function updateNowPlaying(){
   }
 }
 
+// Deze aanvraag gebeurt alleen na een bewuste klik, nooit via de 90s-zendercontrole.
+let trackRequestId=0;
+let trackPopupReturnFocus=null;
+let trackPopupPreviousOverflow='';
+function closeTrackPopup(){
+  trackRequestId++;
+  show('trackPopup',false);
+  document.body.style.overflow=trackPopupPreviousOverflow;
+  $('trackInfoBtn').disabled=!(state.connected&&state.groupId);
+  if(trackPopupReturnFocus?.isConnected)trackPopupReturnFocus.focus();
+  trackPopupReturnFocus=null;
+}
+async function requestTrackInfo(){
+  if(!state.connected||!state.selectedHousehold||!state.groupId){
+    toast('Kies eerst een verbonden Sonos-kamer.',true);return;
+  }
+  const householdId=state.selectedHousehold,groupId=state.groupId;
+  const requestId=++trackRequestId;
+  trackPopupReturnFocus=document.activeElement;
+  trackPopupPreviousOverflow=document.body.style.overflow;
+  document.body.style.overflow='hidden';
+  $('trackPopupMessage').textContent='Nummerinformatie wordt nu opgehaald bij Sonos...';
+  show('trackPopupResult',false);
+  show('trackPopup');
+  $('closeTrackPopup').focus();
+  $('trackInfoBtn').disabled=true;
+  try{
+    const data=await api('track-info?householdId='+encodeURIComponent(householdId)+'&groupId='+encodeURIComponent(groupId));
+    if(requestId!==trackRequestId)return;
+    const title=typeof data.title==='string'?data.title:'';
+    const artist=typeof data.artist==='string'?data.artist:'';
+    const streamInfo=typeof data.streamInfo==='string'?data.streamInfo:'';
+    const station=typeof data.station==='string'?data.station:'';
+    const available=Boolean(title||artist||streamInfo);
+    if(!available){
+      $('trackPopupMessage').textContent='Deze zender geeft momenteel geen nummer of artiest door via Sonos.';
+      show('trackPopupResult',false);
+    }else{
+      $('trackPopupMessage').textContent='Op dit moment volgens Sonos:';
+      $('trackPopupSong').textContent=title||streamInfo||'Artiest bekend, titel niet beschikbaar';
+      $('trackPopupArtist').textContent=artist;
+      show('trackPopupArtist',Boolean(artist));
+      $('trackPopupStation').textContent=station?'Via '+station:'';
+      show('trackPopupStation',Boolean(station));
+      show('trackPopupResult');
+    }
+  }catch(err){
+    if(requestId!==trackRequestId)return;
+    $('trackPopupMessage').textContent='Nummerinformatie ophalen mislukt: '+err.message;
+    show('trackPopupResult',false);
+  }finally{
+    if(requestId===trackRequestId)$('trackInfoBtn').disabled=!(state.connected&&state.groupId);
+  }
+}
+
 async function loadSonos(){setConnection(false,'Sonos-favorieten ophalen...');try{const householdsResult=await api('households');const households=householdsResult.households||[];state.households=households;if(!households.length){setConnection(false,'Er zijn geen Sonos-huishoudens gevonden.');return}if(!households.some(h=>h.id===state.selectedHousehold))state.selectedHousehold=households[0].id;const hs=$('householdSelect');hs.replaceChildren();households.forEach(h=>{const opt=node('option','',h.name||h.id);opt.value=h.id;hs.append(opt)});hs.value=state.selectedHousehold;localStorage.setItem('radio_household',state.selectedHousehold);const result=await api('sonos?householdId='+encodeURIComponent(state.selectedHousehold));state.groups=Array.isArray(result.groups)?result.groups:[];state.favorites=normalizeFavoriteList(result.favorites);if(!state.groups.some(g=>g.id===state.groupId))state.groupId=state.groups[0]?.id||'';localStorage.setItem('radio_group',state.groupId);const rs=$('roomSelect');rs.replaceChildren();state.groups.forEach(g=>{const opt=node('option','',g.name||g.id);opt.value=g.id;rs.append(opt)});rs.value=state.groupId;setConnection(true,`${state.favorites.length} favorieten beschikbaar • ${state.groups.length} kamers / groepen`);if(!state.groups.length)toast('Geen actieve Sonos-groepen gevonden.',true);renderList();void updateNowPlaying()}catch(err){setConnection(false,err.message);if(!/niet gekoppeld|Log eerst/.test(err.message))toast(err.message,true);renderList()}}
 function updateFavoriteSelect(value=''){const sel=$('favoriteSelect');sel.replaceChildren();const base=node('option','','Kies je Sonos-favoriet');base.value='';sel.append(base);for(const fav of state.favorites){const o=node('option','',fav.name);o.value=fav.id;sel.append(o)}if(value&&!state.favorites.some(f=>f.id===value)){const opt=node('option','','Oud favoriet (niet meer bij Sonos)');opt.value=value;sel.append(opt)}sel.value=value}
 function openModal(item){$('programForm').reset();$('editId').value=item?.id||'';$('modalTitle').textContent=item?'Programma wijzigen':'Programma toevoegen';$('programName').value=item?.name||'';$('daySelect').value=item?.day||(state.view==='week'?'1':String(selectedIndex()));$('startTime').value=item?.start||'08:00';$('endTime').value=item?.end||'';updateFavoriteSelect(item?.favoriteId||'');$('formError').textContent='';show('modal');$('programName').focus();document.body.style.overflow='hidden';if(!state.connected)toast('Koppel eerst Sonos om favorieten te selecteren.',true)}
@@ -59,8 +114,13 @@ $('loginForm').addEventListener('submit',async ev=>{ev.preventDefault();$('login
 $('logoutBtn').addEventListener('click',async()=>{try{await api('logout',{method:'POST',body:'{}'});}catch{}showLogin()});
 $('connectBtn').addEventListener('click',()=>{location.href='/api/oauth/start'});
 $('refreshBtn').addEventListener('click',loadSonos);
+$('trackInfoBtn').addEventListener('click',requestTrackInfo);
+$('closeTrackPopup').addEventListener('click',closeTrackPopup);
+$('closeTrackPopupBottom').addEventListener('click',closeTrackPopup);
+$('trackPopup').addEventListener('click',e=>{if(e.target===$('trackPopup'))closeTrackPopup()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('trackPopup').classList.contains('hidden'))closeTrackPopup()});
 $('householdSelect').addEventListener('change',async e=>{state.selectedHousehold=e.target.value;state.groupId='';localStorage.setItem('radio_household',state.selectedHousehold);await loadSonos()});
-$('roomSelect').addEventListener('change',e=>{state.groupId=e.target.value;localStorage.setItem('radio_group',state.groupId);void updateNowPlaying()});
+$('roomSelect').addEventListener('change',e=>{state.groupId=e.target.value;localStorage.setItem('radio_group',state.groupId);$('trackInfoBtn').disabled=!(state.connected&&state.groupId);if(!$('trackPopup').classList.contains('hidden'))closeTrackPopup();void updateNowPlaying()});
 $('addBtn').addEventListener('click',()=>openModal());$('closeModal').addEventListener('click',closeModal);$('cancelModal').addEventListener('click',closeModal);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});$('programForm').addEventListener('submit',saveProgram);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 setInterval(()=>{if(!$('appScreen').classList.contains('hidden')){const old=state.lastMinute;const now=new Date().toTimeString().slice(0,5);updateDate();if(now!==old){state.lastMinute=now;renderList()}}},15000);
 setInterval(()=>{if(!document.hidden&&state.connected)void updateNowPlaying()},90000);
