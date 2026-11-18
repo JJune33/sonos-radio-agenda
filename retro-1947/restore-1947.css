@@ -397,3 +397,21 @@ body.ra-retro .local-switch-link:focus-visible{outline:3px solid #b98c35;outline
 @media(max-width:600px){
   body.ra-retro .local-switch-link{font-size:11px;min-height:33px;padding:6px 9px}
 }
+
+
+/* Hetzelfde displayfont als de lokale editie, zonder tijdsaanduidingen te wijzigen. */
+@font-face{
+  font-family:'Sunn Local 50s';
+  src:url('./assets/sunn-local-display.woff2') format('woff2');
+  font-style:normal;
+  font-weight:400 900;
+  font-display:swap;
+}
+body.ra-retro:not(.local-radio) .brand-name,
+body.ra-retro:not(.local-radio) .ra-hero-title,
+body.ra-retro:not(.local-radio) .ra-agenda .ra-section-title,
+body.ra-retro:not(.local-radio) .date-card .date-day,
+body.ra-retro:not(.local-radio) .login-card h2,
+body.ra-retro:not(.local-radio) .modal-heading h2{
+  font-family:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif;
+}
