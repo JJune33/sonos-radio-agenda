@@ -27,49 +27,22 @@ function playbackText(value){
   const labels={PLAYBACK_STATE_PLAYING:'Speelt',PLAYBACK_STATE_PAUSED:'Gepauzeerd',PLAYBACK_STATE_BUFFERING:'Laden',PLAYBACK_STATE_IDLE:'Inactief'};
   return labels[value]||'';
 }
-function renderTrackInfo(data){
-  const title=typeof data.trackTitle==='string'?data.trackTitle:(typeof data.streamInfo==='string'?data.streamInfo:'');
-  const artist=typeof data.trackArtist==='string'?data.trackArtist:'';
-  const available=Boolean(title||artist);
-  show('nowPlayingTrack',available);
-  if(!available)return;
-  $('nowPlayingSong').textContent=title;
-  show('nowPlayingSong',Boolean(title));
-  $('nowPlayingArtist').textContent=artist;
-  show('nowPlayingArtist',Boolean(artist));
-  const service=typeof data.serviceName==='string'?data.serviceName:'';
-  $('nowPlayingService').textContent=service?'Via '+service:'';
-  show('nowPlayingCredit',Boolean(service));
-  const iconUrl=typeof data.serviceIconUrl==='string'?data.serviceIconUrl:'';
-  const icon=$('nowPlayingServiceIcon');
-  if(service&&/^https:\/\//i.test(iconUrl)){
-    icon.src=iconUrl;show('nowPlayingServiceIcon');
-  }else{
-    icon.removeAttribute('src');show('nowPlayingServiceIcon',false);
-  }
-}
 async function updateNowPlaying(){
   if(!state.connected||!state.selectedHousehold||!state.groupId){show('nowPlaying',false);return}
   const groupId=state.groupId,householdId=state.selectedHousehold;
   const room=state.groups.find(g=>g.id===groupId);
   $('nowPlayingRoom').textContent=room?.name||'Sonos';
-  if($('nowPlaying').dataset.groupId!==groupId){
-    $('nowPlaying').dataset.groupId=groupId;
-    $('nowPlayingTitle').textContent='Bron controleren...';
-    show('nowPlayingTrack',false);
-  }
+  if($('nowPlaying').classList.contains('hidden'))$('nowPlayingTitle').textContent='Bron controleren...';
   show('nowPlaying');
   try{
     const data=await api('now-playing?householdId='+encodeURIComponent(householdId)+'&groupId='+encodeURIComponent(groupId));
     if(!state.connected||state.groupId!==groupId||state.selectedHousehold!==householdId)return;
     $('nowPlayingTitle').textContent=data.source||'Sonos geeft geen bronnaam door';
     $('nowPlayingStatus').textContent=playbackText(data.playbackState);
-    renderTrackInfo(data);
   }catch(e){
     if(!state.connected||state.groupId!==groupId||state.selectedHousehold!==householdId)return;
     $('nowPlayingTitle').textContent='Afspeelinformatie niet beschikbaar';
     $('nowPlayingStatus').textContent='';
-    show('nowPlayingTrack',false);
   }
 }
 
