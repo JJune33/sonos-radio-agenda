@@ -209,7 +209,7 @@ body.ra-retro .brand-em{
   letter-spacing:.012em;
 }
 body.ra-retro .ra-hero-title{
-  font-size:clamp(44px,4.8vw,72px);
+  font-size:clamp(36px,4.1vw,60px);
   letter-spacing:.018em;
   line-height:1.1;
 }
@@ -220,13 +220,13 @@ body.ra-retro .date-card .date-day{
   letter-spacing:.02em;
 }
 @media(max-width:1050px){
-  body.ra-retro .ra-hero-title{font-size:clamp(39px,5.4vw,60px)}
+  body.ra-retro .ra-hero-title{font-size:clamp(33px,4.7vw,52px)}
 }
 @media(max-width:800px){
-  body.ra-retro .ra-hero-title{font-size:clamp(35px,5.4vw,48px)}
+  body.ra-retro .ra-hero-title{font-size:clamp(31px,4.8vw,43px)}
 }
 @media(max-width:600px){
-  body.ra-retro .ra-hero-title{font-size:clamp(35px,9vw,49px)}
+  body.ra-retro .ra-hero-title{font-size:clamp(30px,7.6vw,41px)}
   body.ra-retro .brand-name{letter-spacing:.01em}
   body.ra-retro .ra-agenda .program-row{min-width:0}
   body.ra-retro .ra-agenda .program-actions{
