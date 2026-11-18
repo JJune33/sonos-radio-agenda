@@ -177,3 +177,25 @@ body.ra-retro footer{color:#f0e4c5}
  body.ra-retro .ra-paper.now-playing{padding:12px 14px}
  body.ra-retro .now-playing .now-playing-label{font-size:10px}
 }
+
+/* Layout stability: decorations may extend beyond their blocks, never the viewport.
+   Keep horizontal scrolling enabled only inside the weekday picker. */
+html{max-width:100%;overflow-x:clip;overscroll-behavior-x:none}
+body.ra-retro{width:100%;max-width:100%;overflow-x:clip;overscroll-behavior-x:none;background-attachment:scroll}
+body.ra-retro .ra-shell{width:100%;min-width:0;max-width:1320px}
+body.ra-retro .ra-hero,
+body.ra-retro .ra-hero-main,
+body.ra-retro .ra-agenda,
+body.ra-retro .ra-topbar{min-width:0;max-width:100%}
+body.ra-retro .ra-day-picker{
+  width:100%;max-width:100%;min-width:0;
+  overflow-x:auto;overflow-y:hidden;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+@media(max-width:600px){
+ body.ra-retro .ra-topbar{flex-wrap:wrap}
+ body.ra-retro .ra-brand{min-width:0}
+ body.ra-retro .ra-brand .brand-name{overflow-wrap:anywhere}
+ body.ra-retro .ra-hero::after{inset:0;pointer-events:none}
+}
