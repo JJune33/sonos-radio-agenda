@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1118" />
+  <meta name="description" content="Jouw persoonlijke radiogids. Plan programma's en start met een tik je Sonos-favorieten." />
+  <title>Radio Agenda | Lokale internetradio</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./retro-1947/bridge.css" />
+  <link rel="stylesheet" href="./retro-1947/restore-1947.css" />
+  <link rel="stylesheet" href="./local.css" />
+  <script src="./local.js" defer></script>
+</head>
+<body class="ra-retro local-radio">
+  <div class="background-halo" aria-hidden="true"></div>
+  <div class="shell ra-shell">
+    <header class="topbar ra-topbar">
+      <div class="brand ra-brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><div><span class="brand-name">radio<span class="brand-em">agenda</span></span><span class="brand-sub ra-brand-subtitle">LOKALE INTERNETRADIO • JOUW AGENDA</span></div></div>
+      <div class="top-actions ra-top-right"><a class="local-switch" href="./index.html">Naar Sonos</a><span class="connection" id="connection"><span class="connection-light"></span><span id="connectionText">Radio Agenda</span></span><button id="logoutBtn" class="icon-button hidden" title="Uitloggen" aria-label="Uitloggen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div>
+    </header>
+
+    <main id="appScreen" class="hidden">
+      <section class="hero ra-hero">
+        <div class="hero-copy ra-hero-main"><div class="eyebrow ra-eyebrow"><span class="eyebrow-line"></span> JOUW PERSOONLIJKE RADIOGIDS</div><h1 class="ra-hero-title">Mis nooit meer<br /><em>jouw programma.</em></h1><p class="ra-hero-description">Kies een radioprogramma en luister rechtstreeks via je telefoon, tablet of computer. Geen Sonos nodig.</p></div>
+        <div class="date-card ra-paper ra-status-card"><div class="live-header"><span class="live-dot"></span> VANDAAG</div><div id="dateDay" class="date-day">17</div><div id="dateMonth" class="date-month">NOVEMBER 2026</div><div id="dateWeekday" class="date-weekday">Dinsdag</div><div id="clock" class="hero-clock">19:04</div></div>
+      </section>
+
+
+      <section class="local-player panel ra-paper" aria-label="Lokale radiospeler">
+        <div class="local-player-main">
+          <div class="local-player-symbol" aria-hidden="true">♫</div>
+          <div class="local-player-text">
+            <span class="local-label">LOKALE RADIO · OP DIT APPARAAT</span>
+            <strong id="playerStation">Kies een programma uit de agenda</strong>
+            <span id="playerStatus" role="status">Nog niets aan het afspelen</span>
+          </div>
+        </div>
+        <div class="local-player-actions">
+          <button id="playerPause" class="local-player-button" type="button" disabled>Pauzeren</button>
+          <button id="playerStop" class="local-player-button secondary" type="button" disabled>Stoppen</button>
+          <label class="local-volume" for="playerVolume">Volume <input id="playerVolume" type="range" min="0" max="100" value="75" aria-label="Volume"/></label>
+        </div>
+        <audio id="localAudio" preload="none" playsinline></audio>
+      </section>
+
+      <div class="local-hint">De bestaande Sonos-programma's verschijnen hieronder automatisch. Koppel per station één keer een HTTPS-streamadres. Eigen lokale programma's blijven gescheiden van je Sonos-agenda.</div>
+
+      <section class="schedule-section ra-paper ra-agenda">
+        <div class="section-heading ra-agenda-header"><div><span class="eyebrow muted ra-section-kicker">JOUW WEEK</span><h2 class="ra-section-title">Radio agenda</h2></div><button id="addBtn" class="button button-amber ra-action">+ Lokaal programma</button></div>
+        <nav id="dayTabs" class="day-tabs ra-day-picker" aria-label="Kies een dag"></nav>
+        <div class="agenda-summary ra-list-header"><div><span class="eyebrow muted ra-day-tag" id="selectedDayLabel">VANDAAG</span><h3 id="selectedTitle" class="ra-list-heading">Programma's van vandaag</h3></div><div id="itemCount" class="count-chip ra-program-count">0 programma's</div></div>
+        <div id="programList" class="program-list ra-program-list" aria-live="polite"></div>
+      </section>
+      <footer class="ra-footer"><span>Radio Agenda · 1947 · Lokale editie</span><span>Directe internetradio • Dezelfde stijl</span></footer>
+    </main>
+
+    <section id="loginScreen" class="login-screen hidden"><div class="login-card panel ra-paper"><div class="lock-emblem">♫</div><div class="eyebrow ra-eyebrow">WELKOM TERUG</div><h2>Jouw muziek.<br />Jouw agenda.</h2><p>Log in op je privé radioagenda. Je agenda is privé. Je gebruikt hetzelfde wachtwoord als bij de Sonos-versie.</p><form id="loginForm"><label for="password">Wachtwoord voor deze agenda</label><input id="password" type="password" autocomplete="current-password" placeholder="Voer je wachtwoord in" required /><button class="button button-amber login-submit" type="submit">Agenda openen <span>→</span></button></form><div id="loginError" class="form-error" role="alert"></div></div></section>
+
+    <section id="setupScreen" class="login-screen hidden"><div class="login-card panel ra-paper"><div class="lock-emblem">⚙</div><h2>Cloudflare instellen</h2><p id="setupText">De vereiste Cloudflare-instellingen ontbreken nog. Volg de README om je Sonos-gegevens veilig als Secrets toe te voegen.</p></div></section>
+  </div>
+
+
+  <div id="modal" class="modal-overlay hidden" role="presentation">
+    <section class="modal panel ra-dialog local-station-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-heading">
+        <div><span class="eyebrow muted ra-section-kicker">LOKALE RADIO</span><h2 id="modalTitle">Programma toevoegen</h2></div>
+        <button id="closeModal" class="close-button" type="button" aria-label="Sluiten">×</button>
+      </div>
+      <form id="localForm">
+        <input id="editLocalId" type="hidden" />
+        <input id="mappingFavoriteId" type="hidden" />
+        <div id="programFields">
+          <div class="form-group ra-field"><label for="programName">Naam van het programma</label><input id="programName" type="text" maxlength="90" required placeholder="Bijv. Zondag Jazz" /></div>
+          <div class="form-grid">
+            <div class="form-group ra-field"><label for="daySelect">Herhaling</label><select id="daySelect"><option value="1">Maandag</option><option value="2">Dinsdag</option><option value="3">Woensdag</option><option value="4">Donderdag</option><option value="5">Vrijdag</option><option value="6">Zaterdag</option><option value="0">Zondag</option><option value="all">Iedere dag</option></select></div>
+            <div class="form-group ra-field"><label for="startTime">Begint om</label><input type="time" id="startTime" value="08:00" required /></div>
+          </div>
+          <div class="form-group ra-field"><label for="endTime">Eindtijd (optioneel)</label><input type="time" id="endTime" /></div>
+        </div>
+        <div class="form-group ra-field"><label for="stationName">Naam radiostation</label><input id="stationName" type="text" maxlength="200" required placeholder="Bijv. Radio 10" /></div>
+        <div class="form-group ra-field"><label for="streamUrl">HTTPS-streamadres</label><input id="streamUrl" type="url" inputmode="url" maxlength="1500" required placeholder="https://.../stream.mp3" /><small>Gebruik bij voorkeur een directe HTTPS MP3- of AAC-stream. Niet de gewone website van het station.</small></div>
+        <div class="local-search-tools">
+          <label for="stationSearchQuery">Zoek een radiostation</label>
+          <div class="local-search-line">
+            <input id="stationSearchQuery" type="search" maxlength="75" placeholder="Naam van het station" />
+            <button id="searchStations" class="button button-secondary" type="button">Zoeken</button>
+          </div>
+          <p id="searchMessage" class="local-search-message" role="status"></p>
+          <div id="searchResults" class="local-search-results" aria-label="Gevonden radiostations"></div>
+        </div>
+        <p id="formError" class="form-error" role="alert"></p>
+        <div class="modal-actions ra-dialog-actions">
+          <button id="cancelModal" class="button button-secondary" type="button">Annuleren</button>
+          <button id="saveBtn" class="button button-amber" type="submit">Opslaan</button>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>
