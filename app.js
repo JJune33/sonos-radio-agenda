@@ -48,9 +48,58 @@ async function updateNowPlaying(){
 
 // Deze aanvraag gebeurt alleen na een bewuste klik, nooit via de 90s-zendercontrole.
 let trackRequestId=0;
+let lyricsRequestId=0;
+let lyricsQuery=null;
+function resetLyrics(){
+  lyricsRequestId++;
+  lyricsQuery=null;
+  $('lyricsLookupBtn').disabled=false;
+  show('lyricsLookupBtn',false);
+  show('lyricsSection',false);
+  show('lyricsText',false);
+  show('lyricsSource',false);
+  $('lyricsStatus').textContent='';
+  $('lyricsText').textContent='';
+  $('lyricsSource').textContent='';
+}
+function identifyLyricsQuery(title,artist,streamInfo){
+  const song=String(title||'').trim(),by=String(artist||'').trim();
+  if(song&&by)return {title:song,artist:by};
+  const combined=song||String(streamInfo||'').trim();
+  const parts=combined.match(/^(.{2,100}?)\s+[-\u2013\u2014]\s+(.{2,120})$/);
+  return parts?{artist:parts[1].trim(),title:parts[2].trim()}:null;
+}
+async function requestLyrics(){
+  if(!lyricsQuery)return;
+  const requestId=++lyricsRequestId;
+  $('lyricsLookupBtn').disabled=true;
+  $('lyricsStatus').textContent='Songtekst zoeken bij LRCLIB en Lyrics.ovh...';
+  show('lyricsSection');
+  show('lyricsText',false);
+  show('lyricsSource',false);
+  try{
+    const data=await api('lyrics?title='+encodeURIComponent(lyricsQuery.title)+'&artist='+encodeURIComponent(lyricsQuery.artist));
+    if(requestId!==lyricsRequestId||$('trackPopup').classList.contains('hidden'))return;
+    if(data.found&&typeof data.lyrics==='string'&&data.lyrics.trim()){
+      $('lyricsStatus').textContent='';
+      $('lyricsText').textContent=data.lyrics;
+      show('lyricsText');
+      $('lyricsSource').textContent='Bron: '+(data.source||'gratis songtekstbron');
+      show('lyricsSource');
+    }else{
+      $('lyricsStatus').textContent='Voor dit nummer is helaas geen songtekst gevonden in de gratis bronnen.';
+    }
+  }catch(err){
+    if(requestId!==lyricsRequestId||$('trackPopup').classList.contains('hidden'))return;
+    $('lyricsStatus').textContent='Songtekst ophalen mislukt: '+err.message;
+  }finally{
+    if(requestId===lyricsRequestId)$('lyricsLookupBtn').disabled=false;
+  }
+}
 let trackPopupReturnFocus=null;
 let trackPopupPreviousOverflow='';
 function closeTrackPopup(){
+  resetLyrics();
   trackRequestId++;
   show('trackPopup',false);
   document.body.style.overflow=trackPopupPreviousOverflow;
@@ -69,6 +118,7 @@ async function requestTrackInfo(){
   document.body.style.overflow='hidden';
   $('trackPopupMessage').textContent='Nummerinformatie wordt nu opgehaald bij Sonos...';
   show('trackPopupResult',false);
+  resetLyrics();
   show('trackPopup');
   $('closeTrackPopup').focus();
   $('trackInfoBtn').disabled=true;
@@ -91,6 +141,10 @@ async function requestTrackInfo(){
       $('trackPopupStation').textContent=station?'Via '+station:'';
       show('trackPopupStation',Boolean(station));
       show('trackPopupResult');
+      lyricsQuery=identifyLyricsQuery(title,artist,streamInfo);
+      show('lyricsLookupBtn');
+      $('lyricsLookupBtn').disabled=!lyricsQuery;
+      $('lyricsLookupBtn').title=lyricsQuery?'Zoek de songtekst van dit nummer':'Titel en artiest zijn nodig voor een songtekst';
     }
   }catch(err){
     if(requestId!==trackRequestId)return;
@@ -115,6 +169,7 @@ $('logoutBtn').addEventListener('click',async()=>{try{await api('logout',{method
 $('connectBtn').addEventListener('click',()=>{location.href='/api/oauth/start'});
 $('refreshBtn').addEventListener('click',loadSonos);
 $('trackInfoBtn').addEventListener('click',requestTrackInfo);
+$('lyricsLookupBtn').addEventListener('click',requestLyrics);
 $('closeTrackPopup').addEventListener('click',closeTrackPopup);
 $('closeTrackPopupBottom').addEventListener('click',closeTrackPopup);
 $('trackPopup').addEventListener('click',e=>{if(e.target===$('trackPopup'))closeTrackPopup()});
