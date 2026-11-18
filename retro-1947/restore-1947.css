@@ -199,3 +199,32 @@ body.ra-retro .ra-day-picker{
  body.ra-retro .ra-brand .brand-name{overflow-wrap:anywhere}
  body.ra-retro .ra-hero::after{inset:0;pointer-events:none}
 }
+
+
+/* Optional live track details. Warm paper colors, no new gray UI. */
+body.ra-retro .now-playing .now-playing-track{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;
+  margin-top:9px;padding-top:9px;border-top:1px solid rgba(19,89,92,.28);
+  color:#244044;min-width:0;
+}
+body.ra-retro .now-playing .now-playing-track-label{
+  display:block;flex-basis:100%;color:#13595c;
+  font-weight:900;font-size:11px;letter-spacing:.2em;
+}
+body.ra-retro .now-playing .now-playing-song{
+  color:#193e3f;font-size:17px;font-weight:900;overflow-wrap:anywhere;
+}
+body.ra-retro .now-playing .now-playing-artist{
+  color:#31565a;font-size:15px;font-style:italic;overflow-wrap:anywhere;
+}
+body.ra-retro .now-playing .now-playing-credit{
+  display:flex;align-items:center;gap:6px;flex-basis:100%;
+  color:#47615d;font-size:11px;font-style:normal;
+}
+body.ra-retro .now-playing .now-playing-service-icon{
+  display:inline-block;flex:none;width:16px;height:16px;object-fit:contain;
+}
+@media(max-width:600px){
+  body.ra-retro .now-playing .now-playing-song{font-size:14px}
+  body.ra-retro .now-playing .now-playing-artist{font-size:13px}
+}
