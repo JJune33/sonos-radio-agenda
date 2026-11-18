@@ -17,11 +17,11 @@ export async function onRequestGet(context){
     const data=await res.json();
     if(!Array.isArray(data))throw new Error('Ongeldige stationslijst ontvangen.');
     const stations=data.filter(x=>{
-      const stream=x.url_resolved||x.url||'';
-      return x&&typeof x.name==='string'&&x.name.trim()&&typeof stream==='string'&&stream.startsWith('https://');
+      const stream=[x?.url_resolved,x?.url].find(v=>typeof v==='string'&&v.startsWith('https://'));
+      return x&&typeof x.name==='string'&&x.name.trim()&&!!stream;
     }).slice(0,25).map(x=>({
       name:x.name.trim().slice(0,140),
-      url:(x.url_resolved||x.url).slice(0,1500),
+      url:[x.url_resolved,x.url].find(v=>typeof v==='string'&&v.startsWith('https://')).slice(0,1500),
       codec:typeof x.codec==='string'?x.codec.slice(0,30):'',
       bitrate:Number(x.bitrate)||0,
       country:typeof x.country==='string'?x.country.slice(0,80):''
