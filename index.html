@@ -38,7 +38,10 @@
             <strong id="nowPlayingTitle">Bron controleren...</strong>
           </div>
         </div>
-        <span id="nowPlayingStatus" class="now-playing-state"></span>
+        <div class="now-playing-controls">
+          <span id="nowPlayingStatus" class="now-playing-state"></span>
+          <button id="trackInfoBtn" class="track-info-button" type="button" disabled>Welk nummer speelt?</button>
+        </div>
       </section>
 
       <section class="schedule-section ra-paper ra-agenda">
@@ -53,6 +56,23 @@
     <section id="loginScreen" class="login-screen hidden"><div class="login-card panel ra-paper"><div class="lock-emblem">♫</div><div class="eyebrow ra-eyebrow">WELKOM TERUG</div><h2>Jouw muziek.<br />Jouw agenda.</h2><p>Log in op je privé radioagenda. Je Sonos-gegevens blijven veilig op de server.</p><form id="loginForm"><label for="password">Wachtwoord voor deze agenda</label><input id="password" type="password" autocomplete="current-password" placeholder="Voer je wachtwoord in" required /><button class="button button-amber login-submit" type="submit">Agenda openen <span>→</span></button></form><div id="loginError" class="form-error" role="alert"></div></div></section>
 
     <section id="setupScreen" class="login-screen hidden"><div class="login-card panel ra-paper"><div class="lock-emblem">⚙</div><h2>Cloudflare instellen</h2><p id="setupText">De vereiste Cloudflare-instellingen ontbreken nog. Volg de README om je Sonos-gegevens veilig als Secrets toe te voegen.</p></div></section>
+  </div>
+
+  <div id="trackPopup" class="track-popup hidden" role="presentation">
+    <section class="track-popup-card ra-paper" role="dialog" aria-modal="true" aria-labelledby="trackPopupTitle" aria-describedby="trackPopupMessage">
+      <div class="track-popup-top">
+        <span class="track-popup-kicker">RADIO · 1947</span>
+        <button id="closeTrackPopup" class="track-popup-close" type="button" aria-label="Sluiten">×</button>
+      </div>
+      <h2 id="trackPopupTitle">Welk nummer speelt er?</h2>
+      <p id="trackPopupMessage" role="status">Nummerinformatie ophalen...</p>
+      <div id="trackPopupResult" class="track-popup-result hidden">
+        <strong id="trackPopupSong"></strong>
+        <span id="trackPopupArtist"></span>
+        <small id="trackPopupStation"></small>
+      </div>
+      <button id="closeTrackPopupBottom" class="track-popup-done" type="button">Sluiten</button>
+    </section>
   </div>
 
   <div id="modal" class="modal-overlay hidden" role="presentation"><div class="modal panel ra-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-heading"><div><div class="eyebrow muted ra-section-kicker">RADIOPROGRAMMA</div><h2 id="modalTitle">Programma toevoegen</h2></div><button id="closeModal" class="close-button" aria-label="Sluiten">×</button></div><form id="programForm"><input id="editId" type="hidden"/><div class="form-group ra-field"><label for="programName">Naam van het radioprogramma</label><input id="programName" maxlength="90" type="text" required placeholder="Bijv. Ekdom in de Morgen" /></div><div class="form-group ra-field"><label for="favoriteSelect">Sonos-favoriet / radiostation</label><select id="favoriteSelect" required><option value="">Kies een favoriet</option></select><small>Deze lijst komt rechtstreeks uit je Sonos-account.</small></div><div class="form-grid"><div class="form-group ra-field"><label for="daySelect">Herhaling</label><select id="daySelect"><option value="1">Maandag</option><option value="2">Dinsdag</option><option value="3">Woensdag</option><option value="4">Donderdag</option><option value="5">Vrijdag</option><option value="6">Zaterdag</option><option value="0">Zondag</option><option value="all">Iedere dag</option></select></div><div class="form-group ra-field"><label for="startTime">Begint om</label><input type="time" id="startTime" value="08:00" required /></div></div><div class="form-group ra-field"><label for="endTime">Eindtijd (optioneel)</label><input type="time" id="endTime"/><small>De eindtijd is alleen voor de agenda. Sonos wordt niet automatisch gestopt.</small></div><div id="formError" class="form-error" role="alert"></div><div class="modal-actions ra-dialog-actions"><button type="button" class="button button-secondary" id="cancelModal">Annuleren</button><button type="submit" class="button button-amber" id="saveBtn">Programma opslaan</button></div></form></div></div>
