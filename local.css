@@ -162,13 +162,10 @@ body.local-radio .local-banner{
   font-weight:400 900;
   font-display:swap;
 }
-body.local-radio{--ra-display:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif}
 body.local-radio .brand-name,
 body.local-radio .ra-hero-title,
 body.local-radio .ra-agenda .ra-section-title,
 body.local-radio .date-card .date-day,
-body.local-radio .date-card .hero-clock,
-body.local-radio .ra-agenda .time-block,
 body.local-radio .login-card h2,
 body.local-radio .modal-heading h2{
   font-family:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif;
