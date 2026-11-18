@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="208" height="1100" viewBox="0 0 208 1100">
+ <title>1947 radiotoren in fijne crèmekleurige lijnillustratie</title>
+ <g fill="none" stroke="#E6D8B2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity=".93">
+  <path d="M104 94 L10 1090 M104 94 L198 1090 M104 94 L104 18"/>
+  <path d="M104 4 V62 M75 33 H133 M83 12 L125 54 M125 12 L83 54" stroke-width="2.1" />
+  <path d="M102 96 L88 170 L120 170 Z" stroke-width="2"/>
+  <path d="M98.44 225 H109.56"/><path d="M89.85 310 H118.15"/><path d="M98.44 225 L118.15 310 M109.56 225 L89.85 310"/><path d="M104 225 V310" stroke-opacity=".42"/><path d="M80.75 400 H127.25"/><path d="M89.85 310 L127.25 400 M118.15 310 L80.75 400"/><path d="M104 310 V400" stroke-opacity=".42"/><path d="M71.65 490 H136.35"/><path d="M80.75 400 L136.35 490 M127.25 400 L71.65 490"/><path d="M104 400 V490" stroke-opacity=".42"/><path d="M62.05 585 H145.95"/><path d="M71.65 490 L145.95 585 M136.35 490 L62.05 585"/><path d="M104 490 V585" stroke-opacity=".42"/><path d="M52.45 680 H155.55"/><path d="M62.05 585 L155.55 680 M145.95 585 L52.45 680"/><path d="M104 585 V680" stroke-opacity=".42"/><path d="M42.34 780 H165.66"/><path d="M52.45 680 L165.66 780 M155.55 680 L42.34 780"/><path d="M104 680 V780" stroke-opacity=".42"/><path d="M32.73 875 H175.27"/><path d="M42.34 780 L175.27 875 M165.66 780 L32.73 875"/><path d="M104 780 V875" stroke-opacity=".42"/><path d="M23.13 970 H184.87"/><path d="M32.73 875 L184.87 970 M175.27 875 L23.13 970"/><path d="M104 875 V970" stroke-opacity=".42"/><path d="M14.03 1060 H193.97"/><path d="M23.13 970 L193.97 1060 M184.87 970 L14.03 1060"/><path d="M104 970 V1060" stroke-opacity=".42"/>
+  <path d="M6 1091 H202" />
+ </g>
+ <g stroke="#F1E4C3" fill="none" opacity=".6" stroke-width="1.2">
+  <circle cx="104" cy="33" r="4" fill="#E6D8B2"/>
+ </g>
+</svg>

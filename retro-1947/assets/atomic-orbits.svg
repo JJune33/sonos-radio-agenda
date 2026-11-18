@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="590" height="420" viewBox="0 0 590 420">
+<title>Retro futuristische atoom banen, crème lijnen</title>
+<g fill="none" stroke="#E6D8B2" stroke-width="2.4" stroke-linecap="round" opacity=".94">
+ <ellipse cx="296" cy="209" rx="260" ry="97" transform="rotate(-34 296 209)"/>
+ <ellipse cx="296" cy="209" rx="247" ry="104" transform="rotate(47 296 209)"/>
+ <ellipse cx="296" cy="209" rx="261" ry="86" transform="rotate(8 296 209)"/>
+</g>
+<g fill="#E6D8B2">
+<circle cx="485" cy="84" r="10"/><circle cx="373" cy="299" r="10"/><circle cx="123" cy="203" r="10"/><circle cx="281" cy="116" r="7"/>
+</g>
+</svg>
