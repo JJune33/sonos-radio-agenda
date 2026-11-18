@@ -25,7 +25,7 @@ body.ra-retro .icon-button{border:1px solid #e6d8b2;color:#f3e3b9;background:#13
 
 /* Tower and radio waves: rendered in front of the background, not behind opaque layers. */
 body.ra-retro .ra-hero{position:relative;isolation:isolate;overflow:visible;display:grid;grid-template-columns:minmax(0,1fr) minmax(275px,370px);gap:32px;min-height:310px;padding:28px 0 14px;background:transparent}
-body.ra-retro .ra-hero::before{content:"";display:block;position:absolute;left:-168px;top:12px;width:218px;height:970px;background:url('./assets/radio-tower.svg') center top/contain no-repeat;opacity:.97;z-index:2;pointer-events:none}
+body.ra-retro .ra-hero::before{content:"";display:block;position:absolute;left:-112px;top:12px;width:210px;height:940px;background:url('./assets/radio-tower.svg') center top/contain no-repeat;opacity:.97;z-index:2;pointer-events:none}
 body.ra-retro .ra-hero::after{content:"";display:block;position:absolute;inset:0 -35px -22px;background:url('./assets/radio-waves.svg') center 44%/cover no-repeat;opacity:.75;z-index:0;pointer-events:none}
 body.ra-retro .ra-hero-main{min-width:0;position:relative;z-index:3;padding:23px 8px 30px 85px}
 body.ra-retro .ra-hero-main::after{content:"";display:block;position:absolute;left:auto;right:-120px;top:3px;width:min(42vw,315px);height:auto;aspect-ratio:590/420;background:url('./assets/atomic-orbits.svg') center/contain no-repeat;opacity:.7;z-index:-1;pointer-events:none;transform:none}
