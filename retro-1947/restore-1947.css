@@ -415,3 +415,62 @@ body.ra-retro:not(.local-radio) .login-card h2,
 body.ra-retro:not(.local-radio) .modal-heading h2{
   font-family:'Sunn Local 50s',Impact,'Arial Narrow',sans-serif;
 }
+
+
+/* Artiestinformatie in dezelfde compacte retro radio-popup.
+   Beide knoppen werken uitsluitend bij een handmatige klik. */
+body.ra-retro .track-popup .track-popup-action-row{
+  display:flex;align-items:stretch;gap:9px;margin:0 0 12px;
+}
+body.ra-retro .track-popup .track-popup-action-row .track-lyrics-button,
+body.ra-retro .track-popup .track-popup-action-row .track-artist-button{
+  flex:1 1 0;min-width:0;width:auto;
+  margin:0;min-height:43px;padding:10px 10px;
+  border:1px solid #13595c;border-radius:100px;
+  background:#13595c;color:#f0e4c5;
+  font:inherit;font-size:13px;font-weight:850;
+  text-align:center;cursor:pointer;
+}
+body.ra-retro .track-popup .track-popup-action-row button:hover:not(:disabled){background:#0b4e53}
+body.ra-retro .track-popup .track-popup-action-row button:disabled{opacity:.55;cursor:default}
+body.ra-retro .track-artist-section{
+  padding:14px 0 16px;border-top:1px solid rgba(19,89,92,.34);
+  margin:7px 0 16px;min-width:0;
+}
+body.ra-retro #artistInfoStatus{
+  color:#365b59;font-size:13px;line-height:1.5;margin:4px 0 10px;
+  overflow-wrap:anywhere;
+}
+body.ra-retro #artistInfoName{
+  display:block;font-size:20px;line-height:1.2;
+  font-weight:900;color:#13595c;margin:7px 0 12px;
+  overflow-wrap:anywhere;
+}
+body.ra-retro .track-artist-facts{
+  display:flex;flex-direction:column;gap:8px;
+  padding:12px 14px;background:rgba(246,232,197,.68);
+  border:1px solid rgba(19,89,92,.24);
+  border-radius:11px;margin:8px 0 14px;
+}
+body.ra-retro .track-artist-fact{
+  color:#244044;font-size:13px;line-height:1.45;
+  overflow-wrap:anywhere;
+}
+body.ra-retro .track-artist-fact strong{color:#13595c}
+body.ra-retro .track-artist-biography{
+  color:#244044;font:normal 14px/1.65 Georgia,serif;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  max-height:min(35dvh,300px);overflow-y:auto;
+  overscroll-behavior:contain;margin:12px 0;
+}
+body.ra-retro .track-artist-links{
+  display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:11px;
+  font-size:12px;font-weight:850;
+}
+body.ra-retro .track-artist-links a{color:#13595c;text-underline-offset:3px}
+@media(max-width:600px){
+  body.ra-retro .track-popup .track-popup-action-row .track-lyrics-button,
+  body.ra-retro .track-popup .track-popup-action-row .track-artist-button{
+    font-size:12px;padding:10px 8px;
+  }
+}
