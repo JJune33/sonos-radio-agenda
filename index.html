@@ -71,7 +71,21 @@
         <span id="trackPopupArtist"></span>
         <small id="trackPopupStation"></small>
       </div>
-      <button id="lyricsLookupBtn" class="track-lyrics-button hidden" type="button">Songtekst zoeken</button>
+      <div class="track-popup-action-row">
+        <button id="lyricsLookupBtn" class="track-lyrics-button hidden" type="button">Songtekst zoeken</button>
+        <button id="artistInfoBtn" class="track-artist-button hidden" type="button">Artiest info</button>
+      </div>
+      <section id="artistInfoSection" class="track-artist-section hidden" aria-label="Artiestinformatie">
+        <div class="track-lyrics-kicker">OVER DE ARTIEST</div>
+        <p id="artistInfoStatus" role="status"></p>
+        <strong id="artistInfoName" class="hidden"></strong>
+        <div id="artistInfoFacts" class="track-artist-facts hidden"></div>
+        <p id="artistInfoBiography" class="track-artist-biography hidden"></p>
+        <div id="artistInfoLinks" class="track-artist-links hidden">
+          <a id="artistInfoMusicBrainz" target="_blank" rel="noopener noreferrer">MusicBrainz</a>
+          <a id="artistInfoWikipedia" target="_blank" rel="noopener noreferrer" class="hidden">Wikipedia · bron biografie</a>
+        </div>
+      </section>
       <section id="lyricsSection" class="track-lyrics-section hidden" aria-label="Songtekst">
         <div class="track-lyrics-kicker">SONGTEKST</div>
         <p id="lyricsStatus" role="status"></p>
