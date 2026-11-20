@@ -96,10 +96,97 @@ async function requestLyrics(){
     if(requestId===lyricsRequestId)$('lyricsLookupBtn').disabled=false;
   }
 }
+let artistInfoRequestId=0;
+let artistQuery=null;
+function resetArtistInfo(){
+  artistInfoRequestId++;
+  artistQuery=null;
+  $('artistInfoBtn').disabled=false;
+  show('artistInfoBtn',false);
+  show('artistInfoSection',false);
+  show('artistInfoName',false);
+  show('artistInfoFacts',false);
+  show('artistInfoBiography',false);
+  show('artistInfoLinks',false);
+  show('artistInfoWikipedia',false);
+  $('artistInfoStatus').textContent='';
+  $('artistInfoName').textContent='';
+  $('artistInfoFacts').replaceChildren();
+  $('artistInfoBiography').textContent='';
+  $('artistInfoMusicBrainz').removeAttribute('href');
+  $('artistInfoWikipedia').removeAttribute('href');
+}
+function safeArtistLink(candidate,hosts){
+  try{
+    const u=new URL(candidate);
+    if(u.protocol==='https:'&&hosts.includes(u.hostname))return u.href;
+  }catch{}
+  return null;
+}
+async function requestArtistInfo(){
+  if(!artistQuery)return;
+  const requested=artistQuery;
+  const requestId=++artistInfoRequestId;
+  $('artistInfoBtn').disabled=true;
+  $('artistInfoStatus').textContent='Achtergrondinformatie opzoeken via MusicBrainz...';
+  show('artistInfoSection');
+  show('artistInfoName',false);
+  show('artistInfoFacts',false);
+  show('artistInfoBiography',false);
+  show('artistInfoLinks',false);
+  try{
+    const data=await api('artist-info?artist='+encodeURIComponent(requested));
+    if(requestId!==artistInfoRequestId||$('trackPopup').classList.contains('hidden'))return;
+    if(!data.found){
+      $('artistInfoStatus').textContent='Geen betrouwbare match gevonden voor '+requested+'.';
+      return;
+    }
+    $('artistInfoName').textContent=String(data.artist||requested);
+    show('artistInfoName');
+    const facts=$('artistInfoFacts');
+    facts.replaceChildren();
+    function fact(label,value){
+      if(!value)return;
+      const chip=node('span','track-artist-fact');
+      const heading=node('strong','',label+': ');
+      chip.append(heading,document.createTextNode(String(value)));
+      facts.append(chip);
+    }
+    const group=data.type==='Group';
+    fact('Type',group?'Band / groep':data.type==='Person'?'Soloartiest':data.type);
+    fact('Herkomst',data.beginArea||data.area);
+    if(data.started)fact(group?'Opgericht':'Actief / geboren',data.started);
+    if(data.ended)fact(group?'Opgeheven':'Einddatum',data.ended);
+    if(Array.isArray(data.genres)&&data.genres.length)fact('Genres',data.genres.join(', '));
+    show('artistInfoFacts',facts.childNodes.length>0);
+    const biography=String(data.biography||'').trim();
+    $('artistInfoBiography').textContent=biography;
+    show('artistInfoBiography',Boolean(biography));
+    $('artistInfoStatus').textContent=biography?'':(data.description||'Geen korte biografie beschikbaar, maar de artiestgegevens zijn gevonden.');
+    const mb=safeArtistLink(data.musicbrainzUrl,['musicbrainz.org']);
+    const wiki=safeArtistLink(data.biographyUrl,['nl.wikipedia.org','en.wikipedia.org']);
+    if(mb){
+      $('artistInfoMusicBrainz').href=mb;
+      show('artistInfoMusicBrainz');
+    }else show('artistInfoMusicBrainz',false);
+    if(wiki){
+      $('artistInfoWikipedia').href=wiki;
+      show('artistInfoWikipedia');
+    }else show('artistInfoWikipedia',false);
+    show('artistInfoLinks',Boolean(mb||wiki));
+  }catch(err){
+    if(requestId!==artistInfoRequestId||$('trackPopup').classList.contains('hidden'))return;
+    $('artistInfoStatus').textContent='Artiestinformatie ophalen mislukt: '+err.message;
+  }finally{
+    if(requestId===artistInfoRequestId)$('artistInfoBtn').disabled=false;
+  }
+}
+
 let trackPopupReturnFocus=null;
 let trackPopupPreviousOverflow='';
 function closeTrackPopup(){
   resetLyrics();
+  resetArtistInfo();
   trackRequestId++;
   show('trackPopup',false);
   document.body.style.overflow=trackPopupPreviousOverflow;
@@ -119,6 +206,7 @@ async function requestTrackInfo(){
   $('trackPopupMessage').textContent='Nummerinformatie wordt nu opgehaald bij Sonos...';
   show('trackPopupResult',false);
   resetLyrics();
+  resetArtistInfo();
   show('trackPopup');
   $('closeTrackPopup').focus();
   $('trackInfoBtn').disabled=true;
@@ -145,6 +233,9 @@ async function requestTrackInfo(){
       show('lyricsLookupBtn');
       $('lyricsLookupBtn').disabled=!lyricsQuery;
       $('lyricsLookupBtn').title=lyricsQuery?'Zoek de songtekst van dit nummer':'Titel en artiest zijn nodig voor een songtekst';
+      artistQuery=artist||lyricsQuery?.artist||null;
+      show('artistInfoBtn',Boolean(artistQuery));
+      $('artistInfoBtn').disabled=!artistQuery;
     }
   }catch(err){
     if(requestId!==trackRequestId)return;
@@ -170,6 +261,7 @@ $('connectBtn').addEventListener('click',()=>{location.href='/api/oauth/start'})
 $('refreshBtn').addEventListener('click',loadSonos);
 $('trackInfoBtn').addEventListener('click',requestTrackInfo);
 $('lyricsLookupBtn').addEventListener('click',requestLyrics);
+$('artistInfoBtn').addEventListener('click',requestArtistInfo);
 $('closeTrackPopup').addEventListener('click',closeTrackPopup);
 $('closeTrackPopupBottom').addEventListener('click',closeTrackPopup);
 $('trackPopup').addEventListener('click',e=>{if(e.target===$('trackPopup'))closeTrackPopup()});
